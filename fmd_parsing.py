@@ -32,10 +32,11 @@ def get_info_row(mlink):
     return [mlink, outlinks, name, info]
 
 
-with open("fmd_parsed_with_meta_2.tsv", "w+") as resultsfile:
+with open("fmd_parsed_with_meta_2_QZ.tsv", "w+") as resultsfile:
+
     writer = csv.writer(resultsfile, delimiter="\t")
 
-    for letter in "ABCDEFGHIJKLMNOP":
+    for letter in "QRSTUVWXYZ":
 
         print(letter)
 
