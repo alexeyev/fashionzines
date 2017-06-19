@@ -26,17 +26,20 @@ def get_info_row(mlink):
     name = [e.text for e in bs.find_all(itemprop="brand")][0]
     outlinks = "|".join([e.attrs["href"].replace('http://www.fashionmodeldirectory.com/go-', "") for e in
                          bs.find_all(href=OUTLINK_PATTERN)])
-    info = " ".join([e.text for e in bs.find_all("div", {"class": "SubInfo"})]).replace("\n\n", '|').replace("\n", " ")
-    print(info)
+    sub_info = re.sub("\n\n+", "|", " ".join([e.text for e in bs.find_all("div", {"class": "SubInfo"})])).replace("\n", " ")
+    botoom_info = re.sub("\n\n+", "|", " ".join([e.text for e in bs.find_all("div", {"class": "BottomInfo"})])).replace("\n", " ")
+    address = re.sub("\n\n+", "|", " ".join([e.text for e in bs.find_all("section", {"class": "Address"})])).replace("\n", " ")
+    social_media = re.sub("\n\n+", "|", " ".join([e.text for e in bs.find_all("section", {"class": "Address"})])).replace("\n", " ")
+    about = re.sub("\n\n+", "|", " ".join([e.text for e in bs.find_all("section", {"class": "About"})])).replace("\n", " ")
 
-    return [mlink, outlinks, name, info]
+    return [mlink, outlinks, name, sub_info, botoom_info, address, social_media, about]
 
 
-with open("fmd_parsed_with_meta_2_QZ.tsv", "w+") as resultsfile:
+with open("fmd_parsed_with_meta_AZ_2.tsv", "w+") as resultsfile:
 
     writer = csv.writer(resultsfile, delimiter="\t")
 
-    for letter in "QRSTUVWXYZ":
+    for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
 
         print(letter)
 
@@ -59,6 +62,7 @@ with open("fmd_parsed_with_meta_2_QZ.tsv", "w+") as resultsfile:
                         print(e.__traceback__)
                         print(e)
             except Exception as e:
+                newlinks = 0
                 print("Can't get alpha page")
                 print(e)
 
